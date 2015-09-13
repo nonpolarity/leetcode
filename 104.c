@@ -18,14 +18,14 @@ maxDepth(struct TreeNode *root)
 {
 	struct RTreeNode {
 		struct TreeNode *itself;
-		struct TreeNode *parent;
+		int		index;
 	};
 
 	struct RTreeNode queue[512];
 	int		head = 0,	tail = 0;
 
 	struct RTreeNode Rroot = {root,
-		NULL
+		-1
 	};
 
 	queue[tail++] = Rroot;
@@ -34,23 +34,23 @@ maxDepth(struct TreeNode *root)
 		if (queue[head].itself->left) {
 			struct RTreeNode new =
 			{queue[head].itself->left,
-				queue[head].itself
+				head
 			};
 			queue[tail++] = new;
 		}
 		if (queue[head].itself->right) {
 			struct RTreeNode new =
 			{queue[head].itself->right,
-				queue[head].itself
+				head
 			};
 			queue[tail++] = new;
 		}
 		head++;
 	}
 	int		level = 1;
-	struct RTreeNode *final = &queue[tail - 1];
-	while (final->parent) {
-		final = final->parent;
+	struct RTreeNode final = queue[tail - 1];
+	while (final.index >= 0) {
+		final = queue[final.index];
 		level++;
 	}
 	return level;
