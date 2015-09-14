@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 /**
 * Definition for a binary tree node.
@@ -20,40 +21,12 @@ maxDepth(struct TreeNode *root)
 {
 	if (root == 0)
 		return 0;
-	struct linkednode {
-		int		level;
-		struct TreeNode *self;
-		struct TreeNode *parent;
-	};
-
-	struct linkednode *lroot = (struct linkednode *)malloc(sizeof(struct linkednode));
-	lroot->level = 1;
-	lroot->self = root;
-	lroot->parent = 0;
-
-	struct linkednode *current = lroot;
-
-	do {
-		int		parentlevel = current->level + 1;
-		struct TreeNode *currentself = current->self;
-		struct TreeNode *sameparent = current->parent;
-		if (currentself->left) {
-			struct linkednode *new = (struct linkednode *)malloc(sizeof(struct linkednode));
-			new->level = parentlevel;
-			new->self = currentself;
-			new->parent = sameparent;
-			current = new;
-		}
-		if (currentself->right) {
-			struct linkednode *new = (struct linkednode *)malloc(sizeof(struct linkednode));
-			new->level = parentlevel;
-			new->self = currentself;
-			new->parent = sameparent;
-			current = new;
-		}
-	} while
-		((current->self->left != 0) | (current->self->right != 0));
-	return (current->level);
+	int		left = 0,	right = 0;
+	if (root->left != 0)
+		left = maxDepth(root->left);
+	if (root->right != 0)
+		right = maxDepth(root->right);
+	return (left > right ? left + 1 : right + 1);
 }
 
 int
