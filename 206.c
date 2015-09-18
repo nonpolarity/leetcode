@@ -11,9 +11,9 @@ struct ListNode {
 struct ListNode *
 reverseList(struct ListNode *head)
 {
-	//if (head == 0)
-		//return 0;
-	if (head == 0 | head->next == 0)
+	if (head == 0)
+		return 0;
+	if (head->next == 0)
 		return head;
 	struct ListNode *tmp = reverseList(head->next);
 	head->next->next = head;
@@ -24,13 +24,12 @@ reverseList(struct ListNode *head)
 int
 main(int argc, char *argv[])
 {
-	//struct ListNode *node1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-	struct ListNode *node1 = 0;
+	struct ListNode *node1 = (struct ListNode *)malloc(sizeof(struct ListNode));
 	struct ListNode *node2 = (struct ListNode *)malloc(sizeof(struct ListNode *));
 	struct ListNode *node3 = (struct ListNode *)malloc(sizeof(struct ListNode *));
 	struct ListNode *newhead = (struct ListNode *)malloc(sizeof(struct ListNode *));
-	//node1->val = 1;
-	//node1->next = node2;
+	node1->val = 1;
+	node1->next = node2;
 	node2->val = 2;
 	node2->next = node3;
 	node3->val = 3;
