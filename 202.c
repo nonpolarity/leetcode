@@ -7,6 +7,8 @@
 bool
 isHappy(int n)
 {
+	int		hash       [810];
+	memset(hash, 0, sizeof(hash));
 	while (1) {
 		int		sum = 0;
 		int		digit;
@@ -14,12 +16,12 @@ isHappy(int n)
 			digit = n % 10;
 			sum += digit * digit;
 			n /= 10;
-
 		}
 		if (sum == 1)
 			return 1;
-		if (sum == 4)
+		if (hash[sum])
 			return 0;
+		hash[sum] = 1;
 		n = sum;
 	}
 	return 0;
@@ -28,12 +30,5 @@ isHappy(int n)
 int
 main(int argc, char *argv[])
 {
-	int		i = 1;
-	while (i) {
-		printf("Please input the number:\n");
-		scanf("%d", &i);
-		if (isHappy(i))
-			printf("Happy number!\n");
-	}
 	return 0;
 }
