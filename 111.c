@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <limits.h>
 
 
 struct TreeNode {
@@ -15,29 +16,14 @@ minDepth(struct TreeNode *root)
 {
 	if (root == 0)
 		return 0;
-	int		level = 0;
-	int		head = 0,	tail = 0;
-	struct TreeNode *queue[512];
-	queue[tail++] = root;
-	queue[tail++] = 0;
-	while (head != tail) {
-		struct TreeNode *tmp = queue[head++];
-		if (tmp == 0) {
-			if (head == tail)
-				break;
-			level++;
-			queue[tail++] = 0;
-			continue;
-		} else {
-			if (tmp->left == 0 & tmp->right == 0)
-				return level;
-		}
-		if (tmp->left)
-			queue[tail++] = tmp->left;
-		if (tmp->right)
-			queue[tail++] = tmp->right;
-	}
-	return level;
+	if (root->left == 0 & root->right == 0)
+		return 1;
+	int		left = INT_MAX, right = INT_MAX;
+	if (root->left != 0)
+		left = minDepth(root->left);
+	if (root->right != 0)
+		right = minDepth(root->right);
+	return (left < right ? left + 1 : right + 1);
 }
 
 int
