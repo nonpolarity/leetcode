@@ -2,56 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-char           *
-countAndSay(int n)
+
+char *countAndSay(int n)
 {
-	char           *string = malloc(sizeof(char) * 512);
+	char *string = malloc(sizeof(char) * 10240);
 	string[0] = '1';
 	string[1] = '\0';
 	if (!n)
 		return 0;
 	if (n == 1)
 		return string;
-	char           *index = string;
-	char		newstring [512];
-	char           *newindex = newstring;
-	while (n >= 2) {
-		while (*index != '\0') {
-			if (*index == '1') {
-				if (*(index + 1) == '1') {
-					*(newindex++) = '2';
-					index++;
-				} else
-					*(newindex++) = '1';
-				*(newindex++) = '1';
-				index++;
-			}
-			if (*index == '2') {
-				*(newindex++) = '1';
-				*(newindex++) = '2';
-				index++;
+
+	char *newstring = malloc(sizeof(char) * 10240);
+	while (n > 1) {
+		int i = 1, j = 1, k = 0;
+		do {
+			if (string[i] == string[i - 1]) {
+				j++;
+			} else {
+				newstring[k++] = j + '0';
+				newstring[k++] = string[i - 1];
+				j = 1;
 			}
 		}
-		*newindex = '\0';
-		index = string;
-		newindex = newstring;
-		while (*newindex != '\0') {
-			*(index++) = *(newindex++);
-		}
-		index = string;
-		newindex = newstring;
+		while (string[i++] != '\0');
+		newstring[k] = '\0';
+		strcpy(string, newstring);
 		n--;
 	}
-	return string;
+	return newstring;
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int		number = 3;
-	char           *result = countAndSay(number);
-	while (*result != '\0')
-		printf("%c", *(result++));
+	int number = atoi(argv[1]);
+	char *result = countAndSay(number);
+	if (*result != '\0')
+		printf("%s", result);
 
 	printf("\n");
 	return 0;
