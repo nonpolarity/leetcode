@@ -7,13 +7,13 @@ int compareVersion(char *version1, char *version2)
 {
 	char *saverptr1 = NULL;
 	char *saverptr2 = NULL;
-	char *token1 = strtok_r(version1, ".", &saverptr1);
-	char *token2 = strtok_r(version2, ".", &saverptr2);
+	char *token1 = strsep(&version1, ".");
+	char *token2 = strsep(&version2, ".");
 
 	int num1, num2;
 
 	while (token1 || token2) {
-		printf("\t%s\t%s\n", token1, token2);
+		printf("token:\t%s\t%s\n", token1, token2);
 		num1 = (token1) ? atoi(token1) : 0;
 		num2 = (token2) ? atoi(token2) : 0;
 
@@ -22,8 +22,8 @@ int compareVersion(char *version1, char *version2)
 		else if (num1 < num2)
 			return -1;
 
-		token1 = strtok_r(NULL, ".", &saverptr1);
-		token2 = strtok_r(NULL, ".", &saverptr2);
+		token1 = strsep(&version1, ".");
+		token2 = strsep(&version2, ".");
 	}
 	return 0;
 }
