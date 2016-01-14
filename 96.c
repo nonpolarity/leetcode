@@ -5,17 +5,19 @@
 
 int numTrees(int n)
 {
-	if (n == 0 || n == 1)
-		return 1;
-	int result = 0;
-	if (n > 1) {
+	int result[512];
+	result[0] = 1;
+	result[1] = 1;
+	for (int i = 2; i <= n; i++) {
 		int left = 0, right = 0;
-		for (left = 0; left < n; left++) {
-			right = n - left - 1;
-			result += numTrees(left) * numTrees(right);
+		int sum = 0;
+		for (left = 0; left < i; left++) {
+			right = i - left - 1;
+			sum += result[left] * result[right];
 		}
+		result[i] = sum;
 	}
-	return result;
+	return result[n];
 }
 
 int main(int argc, char *argv[])
